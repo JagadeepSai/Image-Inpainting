@@ -5,11 +5,15 @@ import argparse
 ap = argparse.ArgumentParser()
 ap.add_argument("-i", "--input", required=True,
 	help="input image")
-ap.add_argument("-o", "--output", required=True,
-	help="output image")
 args = vars(ap.parse_args())
 input = args["input"]
-output = args["output"]
+l = len(input)
+while input[l-1] != '.':
+	l-=1
+fname = input[:l-1]
+ext = input[l:]
+print(fname)
+print(ext)
 img = cv2.imread(input)
 height, width, channels = img.shape
 drawing = False
@@ -55,8 +59,12 @@ while(1):
 	elif k==ord('-'):
 		radius = max(1, radius-1)
 	elif k==ord('s'):
-		cv2.imwrite(output,mask)
-		cv2.imwrite(input,img)
+		name = fname+'_mask.png'
+		print ('Creating...' + name)
+		cv2.imwrite(name,mask)
+		name = fname+'_input.png'
+		print ('Creating...' + name)
+		cv2.imwrite(name,img)
 		break
 	elif k ==ord('c'):
 		img = cv2.imread(input)
