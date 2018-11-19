@@ -5,4 +5,3 @@ clc;
 
 image = imread('../data/images/c1.jpg');
 mask = imread('../data/images/c1_mask.pgm');
-

@@ -1,0 +1,25 @@
+close all;
+clear;
+clc;
+%% Image Inpainting 
+
+image = imread('../data/images/c1.jpg');
+mask = imread('../data/images/c1_mask.pgm');
+G = gradient(image
+[sizex, sizey] = size(mask);
+Gx = 0;
+Gy = 0;
+maxG = -1;
+for i = max(1, x-window):min(sizex, x+window)
+    for j = max(1, y-window):min(sizey, y+window)
+        if (mask(i,j) == 255)
+            if(G(i,j,1)^2+G(i,j,2)^2 > maxG)
+                maxG = G(i,j,1)^2+G(i,j,2)^2
+                Gx = G(i,j,1);
+                Gy = G(i,j,2);
+            end
+        end
+    end
+        end
+Ix = -Gy;
+Iy = Gx;
