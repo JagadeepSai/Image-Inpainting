@@ -1,7 +1,7 @@
 clc;
 clear all;
 tic;
-image = imread('../data/images/c3.bmp');
+image = imread('../data/images/c2.jpg');
 image=rgb2hsv(image);
 % figure(1), hold off, imagesc(image);
 
@@ -9,7 +9,7 @@ image=rgb2hsv(image);
 % mask = 255-255*poly2mask(x, y, size(image, 1), size(image, 2)); 
 
 
-mask = imread('../data/images/c3_mask.bmp');
+mask = imread('../data/images/c2_mask.bmp');
 % mask = 255-mask;
 
 
@@ -63,10 +63,10 @@ while 1
     cp = confidence(psi,max_p_x,max_p_y,confidence_mat);
     
     
-    top = max_p_x-max(max_p_x-psi,1);
-    bottom = min(max_p_x+psi,rows)-max_p_x;
-    left = max_p_y-max(max_p_y-psi,1);
-    right = min(max_p_y+psi,cols)-max_p_y;
+    top = max_p_x-max(max_p_x-psi,1)
+    bottom = min(max_p_x+psi,rows)-max_p_x
+    left = max_p_y-max(max_p_y-psi,1)
+    right = min(max_p_y+psi,cols)-max_p_y
     
     for i=-top:bottom
         for j=-left:right
