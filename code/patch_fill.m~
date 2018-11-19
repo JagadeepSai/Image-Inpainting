@@ -2,11 +2,16 @@ function patch_fill(x,y,image,mask,window,psi,confidence_mat)
 % psi is the half-patch size
 % window is the search window for similiar patches (half)
 % x > psi and x < cols-psi and y > psi and y < rows-psi
-
+    x
+    y
     [rows cols] = size(mask);
+    assert(x> psi);
+    assert(x< cols - psi);
+    assert(y>psi);
+    assert(y<rows-psi);
     
-    p = image(x-psi:x+psi,y-psi:y+psi);
-    
+    p = image(x-psi:x+psi,y-psi:y+psi,:);
+    mask_p = mask(x-psi:x+psi,y-psi:y+psi);
     min_x = max(x-window,psi+1);
     max_x = min(x+window,cols-psi-1);
     min_y = max(y-window,psi+1);
@@ -18,15 +23,26 @@ function patch_fill(x,y,image,mask,window,psi,confidence_mat)
     
     for i=min_x:max_x
         for j=min_y:max_y
-           if sum(sum(mask(i-psi:i+psi,j-psi:j+psi))) >= 255*(2*psi+1)*(2*psi+1) 
-               q = image(i-psi:i+psi,j-psi:j+psi);
-               diff = sum(sum((p-q).^(2)));
-               if min_diff > diff
-                   min_i = i;
-                   min_j = j;
-                   min_diff = diff;
-               end
+            flag = 0;
+            for i1 = i-psi:i+psi
+                for j1 = j-psi:j+psi
+                    if mask(i1, j1) == 0
+                        flag=1;
+                    end
+                end
+            end
+            if flag==1
+                continue;
+            end
+%            if sum(sum(mask(i-psi:i+psi,j-psi:j+psi))) >= 255*(2*psi+1)*(2*psi+1) 
+           q = image(i-psi:i+psi,j-psi:j+psi, :);
+           diff = sum(sum(((p-q).^(2).*mask_p)./255));
+           if min_diff > diff
+               min_i = i;
+               min_j = j;
+               min_diff = diff;
            end
+%            end
         end
     end
     
@@ -42,9 +58,5 @@ function patch_fill(x,y,image,mask,window,psi,confidence_mat)
             end
         end
     end
-  
-    
-  
-
 
 end

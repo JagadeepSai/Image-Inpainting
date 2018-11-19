@@ -15,7 +15,7 @@ function [border_list] =  find_border(image,mask)
                     x_y = zeros(1,2);
                     x_y(1,1) = i;
                     x_y(1,2) = j;
-                    border_list = [border_list,x_y];
+                    border_list = [border_list;x_y];
                 end
             end
         end
