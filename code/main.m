@@ -1,18 +1,24 @@
 clc;
 clear all;
 tic;
-image = imread('../data/images/c1.jpg');
+image = imread('../data/images/p1.jpg');
 image=rgb2hsv(image);
-mask = double(imread('../data/images/c1_mask.pgm'));
-inv_mask = 255-mask;
-% image_temp = image;
-% image = image.*mask/255; %hsv
-priority_mat = mask/255;
 
-psi = 6;
-window = 40;
-alpha=1;
-% f=3;
+% figure(1), hold off, imagesc(image);
+
+% [x, y] = ginput;                                                              
+% mask = 255-255*poly2mask(x, y, size(image, 1), size(image, 2)); 
+
+
+mask = imread('../data/images/p1_mask.jpg');
+% mask = 255-mask;
+
+
+psi = 16;
+window = 48;
+alpha=255;
+width=3;
+
 
 [rows,cols] = size(mask);
 confidence_mat = ones(rows,cols);
@@ -24,7 +30,7 @@ for i=1:rows
         end
     end
 end
-
+    
 while 1
     border_list = find_border(image,mask);
     if size(border_list) == [0,0]
@@ -42,16 +48,20 @@ while 1
         y = border_list(i,2);
         cp = confidence(psi,x,y,confidence_mat);
         dt = isophote(x,y,G,1,mask);
-        norm_vector = norm_vec(border_list,[x,y],5);
-        dp = abs(dt'*norm_vector)/alpha;
-        prio = cp*dp + dp;
-        priority_mat(x,y) = prio;
+
+        norm = norm_vec(border_list,[x,y],width);
+        dp = abs(dt.*norm)/alpha;
+%         prio = cp*dp;
+        prio = cp + dp;
+
         if prio > max_p
             max_p_x = x;
             max_p_y = y;    
             max_p = prio;
         end
     end
+    
+
     confidence_mat(max_p_x,max_p_y) = confidence(psi,max_p_x,max_p_y,confidence_mat);
     [min_i,min_j] = patch_fill(max_p_x,max_p_y,image,mask,window,psi,confidence_mat);
     cp = confidence(psi,max_p_x,max_p_y,confidence_mat);
