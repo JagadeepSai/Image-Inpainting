@@ -1,8 +1,5 @@
 function vec = norm_vec(counter_list,pixel,n)
 
-%constant 
-clc;
-clear;
 
 % testing 
 % pixel = [2,2];
