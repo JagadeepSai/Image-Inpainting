@@ -32,9 +32,9 @@ while 1
         x = border_list(i,1); 
         y = border_list(i,2);
         cp = confidence(psi,x,y,confidence_mat);
-        dt = isophote(x,y,G,psi,mask);
+        data_term = isophote(x,y,G,psi,mask);
         norm = norm_vec(border_list,[x,y]);
-        dp = abs(dt'*norm)/alpha;
+        dp = abs(data_term'*norm)/alpha;
         prio = cp*dp;
         if prio > max_p
             max_p_x = x;
@@ -42,6 +42,6 @@ while 1
             max_p = prio;
         end
     end
-    confidence_mat(max_x,max_y) = confidence(psi,max_x,max_y,confidence_mat);
-    patch_fill(max_x,max_y,image,window,psi,confidence_mat);
+    confidence_mat(max_x,max_y) = ;
+    patch_fill(max_x,max_y,image,window,psi,confidence);
 end
