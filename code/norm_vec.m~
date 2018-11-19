@@ -1,35 +1,58 @@
-function [x,y] = norm_vec(counter_list,pixel)
+% function vec = norm_vec(window)
 
 %constant 
+clc;
+clear;
+% counter_list = [ 1,1 ; 2,2 ; 3,3]';
+pixel = [2,2];
+c1 = [ 0, 0, 0; 1,1,1; 0,0,0];
+w1 = [ 0, 0, 0; 1, 1, 1; 1,1,1];
+w2 = [ 0, 1, 1; 0, 1, 1; 0,1,1];
+w3 = [ 1, 0, 0; 1, 1, 0; 1,1,1];
+w4 = [ 0,0,1;0,1,1;1,1,1];
+
+window = w2;
 n = 3;
-sigma = 5;
+sigma = 2;
 %----
+
+
 x = pixel(1); y = pixel(2);
-window = zeros([n,n]);
+x_list = [];
+y_list = [];
+% window = zeros([n,n]);
 dist = floor(n/2);
-for p = counter_list
+for p = counter_list'
     x2 = p(1) - x;
     y2 = p(2) - y;
     if( (abs(x2) <= dist) && (abs(y2) <= dist))
         window(dist+1+x2,dist+1+y2) = 1;
+        xlist = [xlist ];
     end
 end
-% window
-window = imgaussfilt(window,sigma);
 
+coeffs = polyfit(x, y, 1);
+
+% window = imgaussfilt(window,sigma);
+% window
 [fgrad_x,fgrad_y] = gradient(window);
 
+fx = fgrad_x(dist+1);
+fy = fgrad_y(dist+1);
+
+vec = [-fy; fx] / norm([fx; fy]);
+angle = atan(fx/fy);
 [fgrad_x,fgrad_y]
-fx = fgrad_x(1);
-fy = fgrad_y(1);
+% vec'
+(angle/pi)*180
 
-if fx == 0 && fy == 0
-    vec = [1; 1] / norm([1; 1]); 
-else
-    vec = [fx; fy] / norm([fx; fy]);
-end
+poly
 
-out_x = vec(1);
-out_y = vec(
-end
+% if fx == 0 && fy == 0
+%     vec = [1; 1] / norm([1; 1]); 
+% else
+%     vec = [fx; fy] / norm([fx; fy]);
+% end
+% vec = vec';
+% end
 
