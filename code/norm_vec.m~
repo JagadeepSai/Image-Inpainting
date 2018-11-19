@@ -1,16 +1,35 @@
-function vec = norm_vec(counter_list,pixel,n)
+function [x,y] = norm_vec(counter_list,pixel)
+
+%constant 
+n = 3;
+sigma = 5;
+%----
 x = pixel(1); y = pixel(2);
-window = zeros(n,n);
+window = zeros([n,n]);
 dist = floor(n/2);
-window(dist+1,dist+1) = 1;
 for p = counter_list
     x2 = p(1) - x;
     y2 = p(2) - y;
-    if( (abs(x1) <= dist) && (abs(y1) <= dist))
-        win
+    if( (abs(x2) <= dist) && (abs(y2) <= dist))
+        window(dist+1+x2,dist+1+y2) = 1;
     end
 end
+% window
+window = imgaussfilt(window,sigma);
 
-vec = a;
+[fgrad_x,fgrad_y] = gradient(window);
+
+[fgrad_x,fgrad_y]
+fx = fgrad_x(1);
+fy = fgrad_y(1);
+
+if fx == 0 && fy == 0
+    vec = [1; 1] / norm([1; 1]); 
+else
+    vec = [fx; fy] / norm([fx; fy]);
+end
+
+out_x = vec(1);
+out_y = vec(
 end
 
