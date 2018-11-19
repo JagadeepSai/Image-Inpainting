@@ -3,10 +3,12 @@ clear all;
 tic;
 image = imread('../data/images/c1.jpg');
 image=rgb2hsv(image);
-mask = imread('../data/images/c1_mask.pgm');
-% mask = 255-mask;
+mask = double(imread('../data/images/c1_mask.pgm'));
+inv_mask = 255-mask;
+image_temp = image;
+image = image.*mask/255; %hsv
 
-psi = 4;
+psi = 6;
 window = 40;
 alpha=255;
 

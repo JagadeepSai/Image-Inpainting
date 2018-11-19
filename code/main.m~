@@ -7,7 +7,7 @@ mask = double(imread('../data/images/c1_mask.pgm'));
 inv_mask = 255-mask;
 % image_temp = image;
 % image = image.*mask/255; %hsv
-priority_mat = mask/255;
+
 
 psi = 6;
 window = 40;
@@ -43,9 +43,8 @@ while 1
         cp = confidence(psi,x,y,confidence_mat);
         dt = isophote(x,y,G,1,mask);
         norm_vector = norm_vec(border_list,[x,y],5);
-        dp = abs(dt'*norm_vector)/alpha;
-        prio = cp*dp + dp;
-        priority_mat(x,y) = prio;
+        dp = abs(dt.*norm_vector)/alpha;
+        prio = cp*dp;
         if prio > max_p
             max_p_x = x;
             max_p_y = y;    
@@ -71,9 +70,7 @@ imshow( hsv2rgb(image));
 figure(2);
 imagesc(confidence_mat); colormap(gray);
 
-figure(3);
-imagesc(priority_mat); colormap(gray);
-
+figu
 end
 image= hsv2rgb(image);
 toc;
