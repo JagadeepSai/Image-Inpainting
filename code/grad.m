@@ -1,5 +1,4 @@
 function G = grad(image)
-image = imread('../data/images/c1.jpg');
 [x,y,z] = size(image);
 G = zeros(x,y,2);
 for i = 1:z
