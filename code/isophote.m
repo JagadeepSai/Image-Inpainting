@@ -1,4 +1,4 @@
-function [Ix, Iy] = isophote(x,y, G, window, mask)
+function V = isophote(x,y, G, window, mask)
 [sizex, sizey] = size(mask);
 Gx = 0;
 Gy = 0;
@@ -13,7 +13,8 @@ for i = max(1, x-window):min(sizex, x+window)
             end
         end
     end
-        end
+end
 Ix = -Gy;
 Iy = Gx;
+V = [Ix, Iy]';
 end
