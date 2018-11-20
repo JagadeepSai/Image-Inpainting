@@ -56,7 +56,11 @@ while(1):
 		radius = max(1, radius-1)
 	elif k==ord('s'):
 		cv2.imwrite(output,mask)
+		cv2.imwrite(input,img)
 		break
+	elif k ==ord('c'):
+		img = cv2.imread(input)
+		mask.fill(255);
 	elif k == 27:
 		break
 

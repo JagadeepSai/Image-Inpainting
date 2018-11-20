@@ -1,7 +1,7 @@
 clc;
 clear all;
 tic;
-image = imread('../data/images/c7.png');
+image = imread('../data/images/p1.jpg');
 image=rgb2hsv(image);
 % figure(1), hold off, imagesc(image);
 
@@ -9,8 +9,8 @@ image=rgb2hsv(image);
 % mask = 255-255*poly2mask(x, y, size(image, 1), size(image, 2)); 
 
 
-mask = imread('../data/images/c7_mask.png');
-mask = 255-mask;
+mask = imread('../data/images/p1_mask.jpg');
+% mask = 255-mask;
 
 
 psi = 16;
@@ -56,8 +56,6 @@ while 1
             max_p = prio;
         end
     end
-%     max_p_x = border_list(1,1);
-%     max_p_y = border_list(1,2);
     
 
     confidence_mat(max_p_x,max_p_y) = confidence(psi,max_p_x,max_p_y,confidence_mat);
@@ -76,7 +74,6 @@ while 1
 image= hsv2rgb(image);
 imshow(image)
 image = rgb2hsv(image);
-figure(1), hold off, imagesc(image);
 end
 image= hsv2rgb(image);
 toc;
