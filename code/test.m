@@ -1,12 +1,21 @@
 clc;
 clear all;
+close all;
 tic;
-image = imread('../data/images/c1.jpg');
-image=rgb2hsv(image);
-mask = double(imread('../data/images/c1_mask.pgm'));
+image = imread('../data/images/c2.jpg');
+image =  imgaussfilt(image,3);
+ 
+image=rgb2ycbcr(image);
+image = double(image);
+
+
+mask = imread('../data/images/c2_mask.bmp');
+
+% mask = 255-mask;
+mask = double(mask);
 inv_mask = 255-mask;
 image_temp = image;
-image = image.*mask/255; %hsv
+% image = image.*mask/255; %hsv
 
 psi = 6;
 window = 40;
@@ -23,11 +32,11 @@ for i=1:rows
     end
 end
 
-G= grad(image);
+G= grad1(image);
 I = zeros(rows, cols);
 for i=1:rows
     for j=1:cols
-        I(i,j) = norm(isophote(i, j, G, 1, mask));
+        I(i,j) = norm(isophote1(i, j, G, psi, mask));
         
     end
 end

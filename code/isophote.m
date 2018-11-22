@@ -18,6 +18,7 @@ for i = max(1, x-window):min(sizex, x+window)
         end
     end
 end
+
 Ix = -Gy;
 Iy = Gx;
 % Ix = -Gy/count;
