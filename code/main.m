@@ -6,7 +6,7 @@ dir = '../data/dataset/c46';
 image = imread( sprintf('%s%s',dir,'_input.png'));
 % image =  imgaussfilt(image,2);
 
-image=rgb2hsv(image);
+image=rgb2ycbcr(image);
 image = double(image);
 
     
@@ -91,8 +91,8 @@ while 1
         end
     end
  toc;
-figure(1);
-imshow(hsv2rgb(image));
+% figure(1);
+% imshow(hsv2rgb(image));
 
 if(debug == 1) 
     figure(1);
@@ -114,6 +114,6 @@ if(debug == 1)
     imagesc(confidence_mat); colormap(gray);
 end
 end
-imwrite(hsv2rgb((uint8(image))), sprintf('%s%s',dir,'_output.png'));
+imwrite(ycbcr2rgb((uint8(image))), sprintf('%s%s',dir,'_output.png'));
 % image= hsv2rgb(image);
 toc;
