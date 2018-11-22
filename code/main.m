@@ -2,7 +2,7 @@ clc;
 clear all;
 close all;
 tic;
-dir = '../data/dataset/c46';
+dir = '../data/c23';
 image = imread( sprintf('%s%s',dir,'_input.png'));
 % image =  imgaussfilt(image,2);
 
@@ -11,22 +11,15 @@ image = double(image);
 
     
 debug = 0;
-% figure(1), hold off, imagesc(image);
-
-% [x, y] = ginput;               
-% mask = 255-255*poly2mask(x, y, size(image, 1), size(image, 2));
-
 
 mask = imread(sprintf('%s%s',dir,'_mask.png'));
 mask = double(mask);
-% mask = mask > 0; 
-
 
 psi = 10;
-window = 40;
+window = 120;
 alpha=255;
 width=3;
-grad_window = 3;
+grad_window = 2;
 f = 1.5;
 
 [rows,cols] = size(mask);
@@ -53,7 +46,7 @@ while 1
     for i = 1:n
         x = border_list(i,1);
         y = border_list(i,2);
-        cp = confidence(psi,x,y,confidence_mat);
+        cp = confidence(psi,x,y,confidence_mat); 
         dt = isophote1(x,y,G,grad_window,mask);
         
         norm_vector = [Nx(x,y), Ny(x,y)]';
@@ -63,7 +56,6 @@ while 1
 %         norm_vector = norm_vec(border_list,[x,y],width);
         dp = abs(dt'*norm_vector)/alpha;
         prio = cp + f*dp;
-
         priority_mat(x,y) = prio;
         if prio > max_p
             max_p_x = x;
@@ -91,8 +83,8 @@ while 1
         end
     end
  toc;
-% figure(1);
-% imshow(hsv2rgb(image));
+figure(1);
+imshow(ycbcr2rgb(uint8(image)));
 
 if(debug == 1) 
     figure(1);
