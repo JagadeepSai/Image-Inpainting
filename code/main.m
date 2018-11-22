@@ -2,7 +2,8 @@ clc;
 clear all;
 close all;
 tic;
-image = imread('../data/images/c8.jpg');
+dir = '../data/dataset/c1';
+image = imread('_input.png');
 % image =  imgaussfilt(image,2);
 image=rgb2hsv(image);
 image = double(image);
@@ -15,7 +16,7 @@ imshow(image);
 % mask = 255-255*poly2mask(x, y, size(image, 1), size(image, 2)); 
 
 
-mask = imread('../data/images/c5_mask.bmp');
+mask = imread('../data/dataset/c1_mask.png');
 % mask = 255-mask;
 mask = double(mask);
 % mask = mask > 0; 
@@ -25,8 +26,8 @@ psi = 10;
 window = 60;
 alpha=255;
 width=3;
-grad_window = 3;
-f = 2.5;
+grad_window = 6;
+f = 1.5;
 
 [rows,cols] = size(mask);
 confidence_mat = double(mask > 0);  
@@ -44,27 +45,27 @@ while 1
     max_p_x = 0;
     max_p_y = 0;
     max_p = -1;
-    G = grad1(image);
+    G = grad1(image,3);
     
     %normals 
-    [Nx, Ny] = gradient(double(~mask));
+    % [Nx, Ny] = gradient(double(~mask));
 %     toc;
     for i = 1:n
         x = border_list(i,1);
         y = border_list(i,2);
         cp = confidence(psi,x,y,confidence_mat);
-        dt = isophote1(x,y,G,psi,mask);
+        dt = isophote1(x,y,G,grad_window,mask);
         
-        norm_vector = [Nx(x,y), Ny(x,y)]';
-        norm_vector = norm_vector/norm(norm_vector);
-        norm_vector(~isfinite(norm_vector)) = 0;
+        % norm_vector = [Nx(x,y), Ny(x,y)]';
+        % norm_vector = norm_vector/norm(norm_vector);
+        % norm_vector(~isfinite(norm_vector)) = 0;
         
-%         norm_vector = norm_vec(border_list,[x,y],width);
+        norm_vector = norm_vec(border_list,[x,y],width);
         dp = abs(dt'*norm_vector)/alpha;
 %         prio = cp*dp;
 %           prio = cp*dp;
-        prio = [cp; f*dp];
-        prio = sum(prio);
+        prio = cp*dp;
+%         prio = sum(prio);
 
         priority_mat(x,y) = prio;
         if prio > max_p
@@ -104,7 +105,7 @@ I = zeros(rows, cols);
 for i=1:rows
     for j=1:cols
         if(mask(i,j)==0)
-            I(i,j) = norm(isophote(i, j, G, psi, mask));
+            I(i,j) = norm(isophote(i, j, G, grad_window, mask));
         end
     end
 end
