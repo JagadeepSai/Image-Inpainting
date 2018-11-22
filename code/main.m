@@ -18,7 +18,6 @@ debug = 0;
 
 
 mask = imread(sprintf('%s%s',dir,'_mask.png'));
-% mask = 255-mask;
 mask = double(mask);
 % mask = mask > 0; 
 
@@ -63,10 +62,7 @@ while 1
         
         norm_vector = norm_vec(border_list,[x,y],width);
         dp = abs(dt'*norm_vector)/alpha;
-%         prio = cp*dp;
-          prio = cp + f*dp;
-%         prio = [cp,f*dp];
-%         prio = sum(prio);
+        prio = cp + f*dp;
 
         priority_mat(x,y) = prio;
         if prio > max_p
@@ -75,11 +71,9 @@ while 1
             max_p = prio;
         end
     end
-%     toc;
     confidence_mat(max_p_x,max_p_y) = confidence(psi,max_p_x,max_p_y,confidence_mat);
     [min_i,min_j] = patch_fill(max_p_x,max_p_y,image,mask,window,psi,confidence_mat);
     cp = confidence(psi,max_p_x,max_p_y,confidence_mat);
-%     toc;
     
     
     top = max_p_x-max(max_p_x-psi,1);
@@ -103,9 +97,6 @@ imshow(hsv2rgb(image));
 if(debug == 1) 
     figure(1);
     imshow(ycbcr2rgb((uint8(image))));
-
-    % figure(2);
-    % [rows,cols] = size(mask);
     I = zeros(rows, cols);
     for i=1:rows
         for j=1:cols

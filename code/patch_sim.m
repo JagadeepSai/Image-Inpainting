@@ -1,7 +1,6 @@
 function patch_sim(x,y,image,mask,window,psi,confidence_mat)
 % psi is the half-patch size
 % window is the search window for similiar patches (half)
-% x > psi and x < cols-psi and y > psi and y < rows-psi
 
     [rows cols] = size(mask);
     
