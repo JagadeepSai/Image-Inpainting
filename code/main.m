@@ -16,6 +16,7 @@ image = double(image);
 mask = imread('../data/images/c5_mask.bmp');
 % mask = 255-mask;
 mask = double(mask);
+mask = mask > 0; 
 
 psi = 5;
 window = 50;
@@ -29,7 +30,8 @@ confidence_mat = mask > 0;
     
 while 1
     priority_mat = zeros(rows,cols);
-    border_list = find_border(mask);
+    [bx,by] = find_border(mask);
+    border_list = [bx,by];
     if size(border_list) == [0,0]
        break
     end
