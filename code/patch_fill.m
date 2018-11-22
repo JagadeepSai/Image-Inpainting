@@ -76,14 +76,6 @@ function [min_i,min_j] = patch_fill(x,y,image,mask,window,psi,confidence_mat)
            
 %            diff = diff + pdist2(c1,c2,'chisq');
        
-           q = image(i-psi:i+psi,j-psi:j+psi, :);
-%            p = p(:);
-%            q = q(:);
-%            diff = ( ( p - mean(p) )/var(p) ) * ( ( q - mean(q) )/var(q) );
-           diff = sum(sum((sum(((p)-(q)).^(2), 3).*mask_p)./255));
-%            diff = corrcoef(p,q);
-%            diff = diff(1,2);
-
            if min_diff > diff
                min_i = i;
                min_j = j;

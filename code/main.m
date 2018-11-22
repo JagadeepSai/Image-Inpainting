@@ -2,7 +2,7 @@ clc;
 clear all;
 close all;
 tic;
-dir = '../data/dataset/c3';
+dir = '../data/dataset/c8';
 image = imread( sprintf('%s%s',dir,'_input.png'));
 % image =  imgaussfilt(image,2);
 image=rgb2ycbcr(image);
@@ -62,8 +62,8 @@ while 1
         norm_vector = norm_vec(border_list,[x,y],width);
         dp = abs(dt'*norm_vector)/alpha;
 %         prio = cp*dp;
-%           prio = cp*dp;
-        prio = cp*dp;
+          prio = cp*dp;
+%         prio = [cp,f*dp];
 %         prio = sum(prio);
 
         priority_mat(x,y) = prio;
