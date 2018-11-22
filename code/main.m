@@ -11,15 +11,9 @@ image = double(image);
 
     
 debug = 0;
-% figure(1), hold off, imagesc(image);
-
-% [x, y] = ginput;               
-% mask = 255-255*poly2mask(x, y, size(image, 1), size(image, 2));
-
 
 mask = imread(sprintf('%s%s',dir,'_mask.png'));
 mask = double(mask);
-% mask = mask > 0; 
 
 
 psi = 8;
@@ -53,7 +47,7 @@ while 1
     for i = 1:n
         x = border_list(i,1);
         y = border_list(i,2);
-        cp = confidence(psi,x,y,confidence_mat);
+        cp = confidence(psi,x,y,confidence_mat); 
         dt = isophote1(x,y,G,grad_window,mask);
         
         % norm_vector = [Nx(x,y), Ny(x,y)]';
@@ -92,7 +86,7 @@ while 1
     end
  toc;
 figure(1);
-imshow(hsv2rgb(image));
+imshow(ycbcr2rgb(image));
 
 if(debug == 1) 
     figure(1);
