@@ -46,8 +46,39 @@ function [min_i,min_j] = patch_fill(x,y,image,mask,window,psi,confidence_mat)
 %            if sum(sum(mask(i-psi:i+psi,j-psi:j+psi))) >= 255*(2*psi+1)*(2*psi+1) 
            q = image(i-top:i+bottom,j-left:j+right, :);
            
-           diff = sum(sum((sum((p-q).^(2), 3).*mask_p)./255));
-           diff = diff + corr2(rgb2gray(p),rgb2gray(q));
+           diff = sum(sum((sum((p(:,:,1)-q(:,:,1)).^(2), 3).*mask_p)./255));
+           
+           
+%            diff = diff + corr2(rgb2gray(p),rgb2gray(q));
+
+%            [c1,n]=imhist(p(:,:,1));
+%            c1=c1/size(i1,1)/size(i1,2);
+%            [c2,n2]=imhist(q(:,:,1));
+%            c2=c2/size(i2,1)/size(i2,2);
+%            
+%            diff = pdist2(c1,c2,'chisq');
+%            
+%            [c1,n]=imhist(p(:,:,1));
+%            c1=c1/size(i1,1)/size(i1,2);
+%            [c2,n2]=imhist(q(:,:,1));
+%            c2=c2/size(i2,1)/size(i2,2);
+%            
+%            diff = diff + pdist2(c1,c2,'chisq');
+%            
+%            [c1,n]=imhist(p(:,:,2));
+%            c1=c1/size(i1,1)/size(i1,2);
+%            [c2,n2]=imhist(q(:,:,2));
+%            c2=c2/size(i2,1)/size(i2,2);
+%            
+%            diff = diff + pdist2(c1,c2,'chisq');
+%            
+%            [c1,n]=imhist(p(:,:,3));
+%            c1=c1/size(i1,1)/size(i1,2);
+%            [c2,n2]=imhist(q(:,:,3));
+%            c2=c2/size(i2,1)/size(i2,2);
+           
+%            diff = diff + pdist2(c1,c2,'chisq');
+           
            if min_diff > diff
                min_i = i;
                min_j = j;

@@ -1,6 +1,6 @@
 function vec = norm_vec(counter_list,pixel,n)
 
-
+[Nx, Ny] = gradient(double(~fillRegion));
 % testing 
 % pixel = [2,2];
 % cl1 = [ 1,1; 2,2; 3,3];
@@ -15,28 +15,28 @@ function vec = norm_vec(counter_list,pixel,n)
 % counter_list = cl4;
 % n = 3;
 %----
-
-x = pixel(1); y = pixel(2);
-xlist = [];
-ylist = [];
-% window = zeros([n,n]);
-dist = floor(n/2);
-for p = counter_list'
-    x2 = p(1) - x;
-    y2 = p(2) - y;
-    if( (abs(x2) <= dist) && (abs(y2) <= dist))
-%         window(dist+1+x2,dist+1+y2) = 1;
-        xlist = [xlist x2];
-        ylist = [ylist y2];
-    end
-end
-
-coeffs = polyfit(xlist, ylist, 1);
-angle = atan(-1/coeffs(1))+pi;
-
-fx = cos(angle);
-fy = sin(angle);
-
-vec = [fx; fy] / norm([fx; fy]);
+% 
+% x = pixel(1); y = pixel(2);
+% xlist = [];
+% ylist = [];
+% % window = zeros([n,n]);
+% dist = floor(n/2);
+% for p = counter_list'
+%     x2 = p(1) - x;
+%     y2 = p(2) - y;
+%     if( (abs(x2) <= dist) && (abs(y2) <= dist))
+% %         window(dist+1+x2,dist+1+y2) = 1;
+%         xlist = [xlist x2];
+%         ylist = [ylist y2];
+%     end
+% end
+% 
+% coeffs = polyfit(xlist, ylist, 1);
+% angle = atan(-1/coeffs(1))+pi;
+% 
+% fx = cos(angle);
+% fy = sin(angle);
+% 
+% vec = [fx; fy] / norm([fx; fy]);
 end
 

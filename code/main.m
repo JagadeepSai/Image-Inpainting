@@ -2,37 +2,24 @@ clc;
 clear all;
 close all;
 tic;
-<<<<<<< HEAD
-image = double(imread('../data/images/c1.jpg'));
-image=rgb2hsv(image);
-% figure(1), hold off, imagesc(image)
 
-% [x, y] = ginput;                                                              
-% mask = 255-255*poly2mask(x, y, size(image, 1), size(image, 2)); 
+image = imread('../data/images/c5.jpg');
+% image =  imgaussfilt(image,2);
+image=rgb2ycbcr(image);
+image = double(image);
 
-mask = imread('../data/images/c8_mask.png');
-mask = 255-mask;
+mask = imread('../data/images/c5_mask.bmp');
 mask = double(mask);
 
 psi = 5;
 window = 50;
->>>>>>> ce04e9583613c804bab501bd7eead5e407034e25
 alpha=255;
 width=3;
 grad_window = 48;
 f = 2.5;
 
 [rows,cols] = size(mask);
-confidence_mat = ones(rows,cols);
-
-
-for i=1:rows
-    for j=1:cols
-        if mask(i,j) == 0
-           confidence_mat(i,j) = 0;
-        end
-    end
-end
+confidence_mat = mask > 0;  
     
 while 1
     priority_mat = zeros(rows,cols);
@@ -45,25 +32,23 @@ while 1
     max_p_x = 0;
     max_p_y = 0;
     max_p = -1;
-    G = grad1(image);
+    G = grad(image);
     
-    [Nx,Ny] = gradient(double(~mask));
-    
+    %normals 
+    [Nx, Ny] = gradient(double(~mask));
+%     toc;
     for i = 1:n
-        x = border_list(i,1); 
+        x = border_list(i,1);
         y = border_list(i,2);
         cp = confidence(psi,x,y,confidence_mat);
-%         dt = isophote(x,y,G,1,mask);
-        dt = isophote(x,y,G,window,image);
+        dt = isophote(x,y,G,psi,mask);
         
-        
-%         norm = norm_vec(border_list,[x,y],width);
         norm_vector = [Nx(x,y), Ny(x,y)]';
         norm_vector = norm_vector/norm(norm_vector);
         norm_vector(~isfinite(norm_vector)) = 0;
         
-        
-        dp = abs(dt.*norm_vector)/alpha;
+%         norm_vector = norm_vec(border_list,[x,y],width);
+        dp = abs(dt'*norm_vector)/alpha;
 %         prio = cp*dp;
 %           prio = cp*dp;
         prio = [cp; f*dp];
@@ -76,11 +61,11 @@ while 1
             max_p = prio;
         end
     end
-    
-
+%     toc;
     confidence_mat(max_p_x,max_p_y) = confidence(psi,max_p_x,max_p_y,confidence_mat);
     [min_i,min_j] = patch_fill(max_p_x,max_p_y,image,mask,window,psi,confidence_mat);
     cp = confidence(psi,max_p_x,max_p_y,confidence_mat);
+%     toc;
     
     
     top = max_p_x-max(max_p_x-psi,1);
@@ -97,26 +82,27 @@ while 1
             end
         end
     end
+ toc;
 figure(1);
-imagesc(ycbcr2rgb(uint8(image)));
+imshow(ycbcr2rgb((uint8(image))));
 
-figure(2);
-[rows,cols] = size(mask);
+% figure(2);
+% [rows,cols] = size(mask);
 I = zeros(rows, cols);
 for i=1:rows
     for j=1:cols
         if(mask(i,j)==0)
-            I(i,j) = norm(isophote1(i, j, G, psi, mask));
+            I(i,j) = norm(isophote(i, j, G, psi, mask));
         end
     end
 end
-imagesc(I); colormap(gray);
+% imshow(I); colormap(gray);
 
-figure(3);
-imagesc(priority_mat);colormap(gray);
+% figure(3);
+% imshow(priority_mat);colormap(gray);
 
-figure(4);
-imagesc(confidence_mat); colormap(gray);
+% figure(4);
+% imshow(confidence_mat); colormap(gray);
 end
 % image= hsv2rgb(image);
 toc;
