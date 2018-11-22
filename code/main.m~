@@ -2,26 +2,25 @@ clc;
 clear all;
 close all;
 tic;
-dir = '../data/dataset/c8';
-image = imread( sprintf('%s%s',dir,'_input.png'));
+dir = '../data/dataset/c1';
+image = imread(dir + '_input.png');
 % image =  imgaussfilt(image,2);
 image=rgb2ycbcr(image);
 image = double(image);
 
-debug = 0;
 % figure(1), hold off, imagesc(image);
 
-% [x, y] = ginput;               
-% mask = 255-255*poly2mask(x, y, size(image, 1), size(image, 2));
+% [x, y] = ginput;                                                              
+% mask = 255-255*poly2mask(x, y, size(image, 1), size(image, 2)); 
 
 
-mask = imread(sprintf('%s%s',dir,'_mask.png'));
+mask = imread(dir '_mask.png');
 % mask = 255-mask;
 mask = double(mask);
 % mask = mask > 0; 
 
 
-psi = 4;
+psi = 5;
 window = 60;
 alpha=255;
 width=3;
@@ -62,8 +61,8 @@ while 1
         norm_vector = norm_vec(border_list,[x,y],width);
         dp = abs(dt'*norm_vector)/alpha;
 %         prio = cp*dp;
-          prio = cp*dp;
-%         prio = [cp,f*dp];
+%           prio = cp*dp;
+        prio = cp*dp;
 %         prio = sum(prio);
 
         priority_mat(x,y) = prio;
@@ -95,30 +94,26 @@ while 1
         end
     end
  toc;
+figure(1);
+imshow(ycbcr2rgb((uint8(image))));
 
-if(debug == 1) 
-    figure(1);
-    imshow(ycbcr2rgb((uint8(image))));
-
-    % figure(2);
-    % [rows,cols] = size(mask);
-    I = zeros(rows, cols);
-    for i=1:rows
-        for j=1:cols
-            if(mask(i,j)==0)
-                I(i,j) = norm(isophote(i, j, G, grad_window, mask));
-            end
+% figure(2);
+% [rows,cols] = size(mask);
+I = zeros(rows, cols);
+for i=1:rows
+    for j=1:cols
+        if(mask(i,j)==0)
+            I(i,j) = norm(isophote(i, j, G, grad_window, mask));
         end
     end
-    % imshow(I); colormap(gray);
-
-    figure(3);
-    imagesc(priority_mat);colormap(gray);
-
-    figure(4);
-    imagesc(confidence_mat); colormap(gray);
 end
+% imshow(I); colormap(gray);
+
+figure(3);
+imagesc(priority_mat);colormap(gray);
+
+figure(4);
+imagesc(confidence_mat); colormap(gray);
 end
-imwrite(ycbcr2rgb((uint8(image))), sprintf('%s%s',dir,'_output.png'));
 % image= hsv2rgb(image);
 toc;
