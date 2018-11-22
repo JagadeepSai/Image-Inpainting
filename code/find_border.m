@@ -18,4 +18,7 @@ function [border_list] =  find_border(mask)
             end
         end
     end
+    % front = imdilate(mask, ones(3,3)) & ~mask;
+    % [front_x, front_y] = find(front);
+
 end

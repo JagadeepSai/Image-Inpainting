@@ -12,8 +12,6 @@ while input[l-1] != '.':
 	l-=1
 fname = input[:l-1]
 ext = input[l:]
-print(fname)
-print(ext)
 img = cv2.imread(input)
 height, width, channels = img.shape
 drawing = False
@@ -60,10 +58,10 @@ while(1):
 		radius = max(1, radius-1)
 	elif k==ord('s'):
 		name = fname+'_mask.png'
-		print ('Creating...' + name)
+		print ('Creating ' + name)
 		cv2.imwrite(name,mask)
 		name = fname+'_input.png'
-		print ('Creating...' + name)
+		print ('Creating ' + name)
 		cv2.imwrite(name,img)
 		break
 	elif k ==ord('c'):

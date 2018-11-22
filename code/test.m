@@ -1,11 +1,11 @@
-% clc;
-% clear all;
-% close all;
-% tic;
-% image = imread('../data/images/c8.png');
-% image =  imgaussfilt(image,2);
-% image=rgb2ycbcr(image);
-% image = double(image);
+clc;
+clear all;
+close all;
+tic;
+image = imread('../data/images/c8.png');
+image =  imgaussfilt(image,2);
+image=rgb2ycbcr(image);
+image = double(image);
 
 % figure(1), hold off, imagesc(image);
 
