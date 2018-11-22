@@ -47,6 +47,7 @@ function [min_i,min_j] = patch_fill(x,y,image,mask,window,psi,confidence_mat)
            q = image(i-top:i+bottom,j-left:j+right, :);
            
            diff = sum(sum((sum((p-q).^(2), 3).*mask_p)./255));
+           diff = diff + corr2(rgb2gray(p),rgb2gray(q));
            if min_diff > diff
                min_i = i;
                min_j = j;

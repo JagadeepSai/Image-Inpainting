@@ -12,11 +12,14 @@ function [min_i,min_j] = patch_fill(x,y,image,mask,window,psi,confidence_mat)
    
     top = x-max(x-psi,1);
     bottom = min(x+psi,rows)-x;
-    left = 
+    left = y-max(y-psi,1);
+    right = min(y+psi,cols)-y;
+    
+    
     
   
-    p = image(x-psi:x+psi,y-psi:y+psi,:);
-    mask_p = double(mask(x-psi:x+psi,y-psi:y+psi));
+    p = image(x-top:x+bottom,y-left:y+right,:);
+    mask_p = double(mask(x-top:x+bottom,y-left:y+right));
     min_x = max(x-window,psi+1);
     max_x = min(x+window,rows-psi-1);
     min_y = max(y-window,psi+1);
@@ -41,9 +44,10 @@ function [min_i,min_j] = patch_fill(x,y,image,mask,window,psi,confidence_mat)
                 continue;
             end
 %            if sum(sum(mask(i-psi:i+psi,j-psi:j+psi))) >= 255*(2*psi+1)*(2*psi+1) 
-           q = image(i-psi:i+psi,j-psi:j+psi, :);
+           q = image(i-top:i+bottom,j-left:j+right, :);
            
-           diff = sum(sum((sum((p-q).^(2), 3).*mask_p)./255));
+%            diff = sum(sum((sum((p-q).^(2), 3).*mask_p)./255));
+           diff = corr2(p(:,:,1),q);
            if min_diff > diff
                min_i = i;
                min_j = j;

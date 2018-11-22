@@ -1,15 +1,15 @@
 clc;
 clear all;
 tic;
-image = imread('../data/images/c3.bmp');
+image = double(imread('../data/images/c1.jpg'));
 image=rgb2hsv(image);
-% figure(1), hold off, imagesc(image);
+% figure(1), hold off, imagesc(image)
 
 % [x, y] = ginput;                                                              
 % mask = 255-255*poly2mask(x, y, size(image, 1), size(image, 2)); 
 
 
-mask = imread('../data/images/c3_mask.bmp');
+mask = double(imread('../data/images/c1_mask.pgm'));
 % mask = 255-mask;
 
 
@@ -41,13 +41,23 @@ while 1
     max_p = -1;
     G = grad(image);
     
+    [Nx,Ny] = gradient(double(~mask));
+    
     for i = 1:n
         x = border_list(i,1); 
         y = border_list(i,2);
         cp = confidence(psi,x,y,confidence_mat);
-        dt = isophote(x,y,G,1,mask);
-        norm = norm_vec(border_list,[x,y],width);
-        dp = abs(dt.*norm)/alpha;
+%         dt = isophote(x,y,G,1,mask);
+        dt = isophote(x,y,G,window,image);
+        
+        
+%         norm = norm_vec(border_list,[x,y],width);
+        norm_vector = [Nx(x,y), Ny(x,y)]';
+        norm_vector = norm_vector/norm(norm_vector);
+        norm_vector(~isfinite(norm_vector)) = 0;
+        
+        
+        dp = abs(dt.*norm_vector)/alpha;
 %         prio = cp*dp;
         prio = cp + dp;
         if prio > max_p
