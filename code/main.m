@@ -2,32 +2,33 @@ clc;
 clear all;
 close all;
 tic;
-dir = '../data/dataset/c1';
-image = imread('_input.png');
+dir = '../data/dataset/c37';
+image = imread( sprintf('%s%s',dir,'_input.png'));
 % image =  imgaussfilt(image,2);
-image=rgb2hsv(image);
+image=rgb2ycbcr(image);
 image = double(image);
 imshow(image);
 
 
+debug = 0;
 % figure(1), hold off, imagesc(image);
 
 % [x, y] = ginput;                                                              
 % mask = 255-255*poly2mask(x, y, size(image, 1), size(image, 2)); 
 
 
-mask = imread('../data/dataset/c1_mask.png');
+mask = imread(sprintf('%s%s',dir,'_mask.png'));
 % mask = 255-mask;
 mask = double(mask);
 % mask = mask > 0; 
 
 
 psi = 10;
-window = 60;
+window = 50;
 alpha=255;
 width=3;
 grad_window = 6;
-f = 1.5;
+f = 3;
 
 [rows,cols] = size(mask);
 confidence_mat = double(mask > 0);  
@@ -97,25 +98,31 @@ while 1
     end
  toc;
 figure(1);
-imshow(hsv2rgb(image));
+imshow(ycbcr2rgb(uint8(image)));
 
-% figure(2);
-% [rows,cols] = size(mask);
-I = zeros(rows, cols);
-for i=1:rows
-    for j=1:cols
-        if(mask(i,j)==0)
-            I(i,j) = norm(isophote(i, j, G, grad_window, mask));
+if(debug == 1) 
+    figure(1);
+    imshow(ycbcr2rgb((uint8(image))));
+
+    % figure(2);
+    % [rows,cols] = size(mask);
+    I = zeros(rows, cols);
+    for i=1:rows
+        for j=1:cols
+            if(mask(i,j)==0)
+                I(i,j) = norm(isophote(i, j, G, grad_window, mask));
+            end
         end
     end
-end
- figure(3);imagesc(I); colormap(gray);
+    % imshow(I); colormap(gray);
 
-% figure(4);
-% imagesc(priority_mat);colormap(gray);
-% 
-% figure(5);
-% imagesc(confidence_mat); colormap(gray);
+    figure(3);
+    imagesc(priority_mat);colormap(gray);
+
+    figure(4);
+    imagesc(confidence_mat); colormap(gray);
 end
+end
+imwrite(ycbcr2rgb((uint8(image))), sprintf('%s%s',dir,'_output.png'));
 % image= hsv2rgb(image);
 toc;
