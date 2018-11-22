@@ -1,6 +1,5 @@
-function [border_list] =  find_border(image,mask)
+function [border_list] =  find_border(mask)
     [rows cols] =  size(mask);
-    border_mask = zeros(rows,cols);
     border_list = [];
 
     for i=1:rows
@@ -11,7 +10,6 @@ function [border_list] =  find_border(image,mask)
             right_x = min(cols,j+1);
             if mask(i,j) == 0
                 if mask(i,left_x) > 0 || mask(i,right_x) > 0 || mask(up_y,j) > 0 || mask(down_y,j) > 0
-                    border_mask(i,j) = 255;
                     x_y = zeros(1,2);
                     x_y(1,1) = i;
                     x_y(1,2) = j;
@@ -20,4 +18,7 @@ function [border_list] =  find_border(image,mask)
             end
         end
     end
+    % front = imdilate(mask, ones(3,3)) & ~mask;
+    % [front_x, front_y] = find(front);
+
 end

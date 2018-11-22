@@ -1,11 +1,11 @@
-function V = isophote(x,y, G, window, mask)
+function V = isophote(x,y, G, psi, mask)
 [sizex, sizey] = size(mask);
 Gx = 0;
 Gy = 0;
 maxG = -1;
 count=0;
-for i = max(1, x-window):min(sizex, x+window)
-    for j = max(1, y-window):min(sizey, y+window)
+for i = max(1, x-psi):min(sizex, x+psi)
+    for j = max(1, y-psi):min(sizey, y+psi)
         if (mask(i,j) == 255)
             if(G(i,j,1)^2+G(i,j,2)^2 > maxG)
                 maxG = G(i,j,1)^2+G(i,j,2)^2;
@@ -18,6 +18,7 @@ for i = max(1, x-window):min(sizex, x+window)
         end
     end
 end
+
 Ix = -Gy;
 Iy = Gx;
 % Ix = -Gy/count;
