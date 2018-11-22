@@ -1,15 +1,21 @@
-clc;
-clear all;
-close all;
-tic;
-image = imread('../data/images/c2.jpg');
-image =  imgaussfilt(image,3);
- 
-image=rgb2ycbcr(image);
-image = double(image);
+% clc;
+% clear all;
+% close all;
+% tic;
+% image = imread('../data/images/c8.png');
+% image =  imgaussfilt(image,2);
+% image=rgb2ycbcr(image);
+% image = double(image);
+
+% figure(1), hold off, imagesc(image);
+
+% [x, y] = ginput;                                                              
+% mask = 255-255*poly2mask(x, y, size(image, 1), size(image, 2)); 
 
 
-mask = imread('../data/images/c2_mask.bmp');
+mask = imread('../data/images/c1_mask.pgm');
+mask = 255-mask;
+mask = double(mask);
 
 % mask = 255-mask;
 mask = double(mask);
