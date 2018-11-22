@@ -14,8 +14,8 @@ mask = imread('../data/images/p1_mask.jpg');
 % mask = 255-mask;
 
 
-psi = 16;
-window = 48;
+psi = 5;
+window = 60;
 alpha=255;
 width=3;
 
