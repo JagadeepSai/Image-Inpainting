@@ -2,8 +2,8 @@ function [min_i,min_j] = patch_fill(x,y,image,mask,window,psi,confidence_mat)
 % psi is the half-patch size
 % window is the search window for similiar patches (half)
 % x > psi and x < cols-psi and y > psi and y < rows-psi
-    x
-    y
+%     x
+%     y
     [rows cols] = size(mask);
     assert(x> psi);
     assert(x< rows - psi);
@@ -40,7 +40,7 @@ function [min_i,min_j] = patch_fill(x,y,image,mask,window,psi,confidence_mat)
 %            p = p(:);
 %            q = q(:);
 %            diff = ( ( p - mean(p) )/var(p) ) * ( ( q - mean(q) )/var(q) );
-           diff = sum(sum((sum(((p)-(q)).^(2), 3).*mask_p)./255)) + corr2(rgb2gray(hsv2rgb(p)),rgb2gray(hsv2rgb(q)));
+           diff = sum(sum((sum(((p)-(q)).^(2), 3).*mask_p)./255));
 %            diff = corrcoef(p,q);
 %            diff = diff(1,2);
            if min_diff > diff

@@ -2,7 +2,7 @@ clc;
 clear all;
 close all;
 tic;
-image = imread('../data/images/c5.jpg');
+image = imread('../data/images/c1.jpg');
 % image =  imgaussfilt(image,2);
 image=rgb2hsv(image);
 image = double(image);
@@ -13,12 +13,12 @@ image = double(image);
 % mask = 255-255*poly2mask(x, y, size(image, 1), size(image, 2)); 
 
 
-mask = imread('../data/images/c5_mask.bmp');
+mask = imread('../data/images/c1_mask.pgm');
 % mask = 255-mask;
 mask = double(mask);
-mask = mask > 0; 
+% mask = mask > 0; 
 
-psi = 5;
+psi = 2;
 window = 50;
 alpha=255;
 width=3;
@@ -27,11 +27,12 @@ f = 2.5;
 
 [rows,cols] = size(mask);
 confidence_mat = mask > 0;  
-    
+
 while 1
     priority_mat = zeros(rows,cols);
-    [bx,by] = find_border(mask);
-    border_list = [bx,by];
+%     [bx,by] = find_border(mask);
+%     border_list = [bx,by];
+        border_list = find_border(mask);
     if size(border_list) == [0,0]
        break
     end
@@ -40,7 +41,7 @@ while 1
     max_p_x = 0;
     max_p_y = 0;
     max_p = -1;
-    G = grad(image);
+    G = grad1(image);
     
     %normals 
     [Nx, Ny] = gradient(double(~mask));
@@ -49,7 +50,7 @@ while 1
         x = border_list(i,1); 
         y = border_list(i,2);
         cp = confidence(psi,x,y,confidence_mat);
-        dt = isophote(x,y,G,psi,mask);
+        dt = isophote1(x,y,G,psi,mask);
         
         norm_vector = [Nx(x,y), Ny(x,y)]';
         norm_vector = norm_vector/norm(norm_vector); 
@@ -86,26 +87,26 @@ while 1
         end
     end
  toc;
-figure(1);
-imagesc(hsv2rgb((image)));
+% figure(1);
+% imagesc(hsv2rgb((image)));
 
-figure(2);
-[rows,cols] = size(mask);
-I = zeros(rows, cols);
-for i=1:rows
-    for j=1:cols
-        if(mask(i,j)==0)
-            I(i,j) = norm(isophote(i, j, G, psi, mask));
-        end
-    end
-end
-imagesc(I); colormap(gray);
-
-figure(3);
-imagesc(priority_mat);colormap(gray);
-
-figure(4);
-imagesc(confidence_mat); colormap(gray);
+% figure(2);
+% [rows,cols] = size(mask);
+% I = zeros(rows, cols);
+% for i=1:rows
+%     for j=1:cols
+%         if(mask(i,j)==0)
+%             I(i,j) = norm(isophote1(i, j, G, psi, mask));
+%         end
+%     end
+% end
+% imagesc(I); colormap(gray);
+% 
+% figure(3);
+% imagesc(priority_mat);colormap(gray);
+% 
+% figure(4);
+% imagesc(confidence_mat); colormap(gray);
 end
 % image= hsv2rgb(image);
 toc;

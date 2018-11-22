@@ -6,10 +6,10 @@ maxG = -1;
 count=0;
 Gx= 0;
 Gy = 0;
-
-for i = max(1, x-psi):min(sizex, x+psi)
-    for j = max(1, y-psi):min(sizey, y+psi)
-        if (mask(i,j) ~= 0)
+ 
+for i = max(1+1, x-psi):min(sizex-1, x+psi)
+    for j = max(1+1, y-psi):min(sizey-1, y+psi )
+        if (sum(sum(mask(i-1:i+1,j-1:j+1))) == 255*9)
             if(G(i,j,1)^2+G(i,j,2)^2 > maxG)
                 maxG = G(i,j,1)^2+G(i,j,2)^2;
                 Gx = G(i,j,1);
