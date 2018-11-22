@@ -1,7 +1,9 @@
-function G = grad1(image)
+function G = grad1(image,sigma)
 [x,y,z] = size(image);
 sobel_x = [-1 0 1;-2 0 2;-1 0 1];
 sobel_y = sobel_x';
+h = fspecial('gaussian',3,sigma);
+image = imfilter(image,h);
 % image =  imgaussfilt(image,3);
 Gx = imfilter(image,sobel_x);
 Gy = imfilter(image,sobel_y);
