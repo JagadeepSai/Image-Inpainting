@@ -2,7 +2,7 @@ clc;
 clear all;
 close all;
 tic;
-image = imread('../data/images/c8.jpg');
+image = imread('../data/images/c5.jpg');
 % image =  imgaussfilt(image,2);
 image=rgb2hsv(image);
 image = double(image);
@@ -17,7 +17,7 @@ imshow(image);
 
 mask = imread('../data/images/c5_mask.bmp');
 % mask = 255-mask;
-mask = double(mask);
+mask = double(mask);                                                
 % mask = mask > 0; 
 
 
