@@ -1,4 +1,4 @@
-function [border_list] =  find_border(image,mask)
+function [border_list] =  find_border(mask)
     [rows cols] =  size(mask);
     border_list = [];
 
