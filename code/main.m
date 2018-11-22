@@ -2,11 +2,11 @@ clc;
 clear all;
 close all;
 tic;
-dir = '../data/dataset/c37';
+dir = '../data/c23';
 image = imread( sprintf('%s%s',dir,'_input.png'));
 % image =  imgaussfilt(image,2);
 
-image=rgb2hsv(image);
+image=rgb2ycbcr(image);
 image = double(image);
 
     
@@ -15,13 +15,12 @@ debug = 0;
 mask = imread(sprintf('%s%s',dir,'_mask.png'));
 mask = double(mask);
 
-
-psi = 8;
-window = 40;
+psi = 10;
+window = 120;
 alpha=255;
 width=3;
-grad_window = 1;
-f = 2;
+grad_window = 2;
+f = 1.5;
 
 [rows,cols] = size(mask);
 confidence_mat = double(mask > 0);  
@@ -42,7 +41,7 @@ while 1
     G = grad1(image,3);
     
     %normals 
-    % [Nx, Ny] = gradient(double(~mask));
+    [Nx, Ny] = gradient(double(~mask));
 %     toc;
     for i = 1:n
         x = border_list(i,1);
@@ -50,14 +49,13 @@ while 1
         cp = confidence(psi,x,y,confidence_mat); 
         dt = isophote1(x,y,G,grad_window,mask);
         
-        % norm_vector = [Nx(x,y), Ny(x,y)]';
-        % norm_vector = norm_vector/norm(norm_vector);
-        % norm_vector(~isfinite(norm_vector)) = 0;
+        norm_vector = [Nx(x,y), Ny(x,y)]';
+        norm_vector = norm_vector/norm(norm_vector);
+        norm_vector(~isfinite(norm_vector)) = 0;
         
-        norm_vector = norm_vec(border_list,[x,y],width);
+%         norm_vector = norm_vec(border_list,[x,y],width);
         dp = abs(dt'*norm_vector)/alpha;
         prio = cp + f*dp;
-
         priority_mat(x,y) = prio;
         if prio > max_p
             max_p_x = x;
@@ -86,7 +84,7 @@ while 1
     end
  toc;
 figure(1);
-imshow(ycbcr2rgb(image));
+imshow(ycbcr2rgb(uint8(image)));
 
 if(debug == 1) 
     figure(1);
@@ -108,6 +106,6 @@ if(debug == 1)
     imagesc(confidence_mat); colormap(gray);
 end
 end
-imwrite(hsv2rgb((uint8(image))), sprintf('%s%s',dir,'_output.png'));
+imwrite(ycbcr2rgb((uint8(image))), sprintf('%s%s',dir,'_output.png'));
 % image= hsv2rgb(image);
 toc;
