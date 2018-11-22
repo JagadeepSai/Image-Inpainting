@@ -2,7 +2,7 @@ clc;
 clear all;
 close all;
 tic;
-dir = '../data/dataset/c37';
+dir = '../data/dataset/c8';
 image = imread( sprintf('%s%s',dir,'_input.png'));
 % image =  imgaussfilt(image,2);
 image=rgb2ycbcr(image);
@@ -13,8 +13,8 @@ imshow(image);
 debug = 0;
 % figure(1), hold off, imagesc(image);
 
-% [x, y] = ginput;                                                              
-% mask = 255-255*poly2mask(x, y, size(image, 1), size(image, 2)); 
+% [x, y] = ginput;               
+% mask = 255-255*poly2mask(x, y, size(image, 1), size(image, 2));
 
 
 mask = imread(sprintf('%s%s',dir,'_mask.png'));
@@ -64,8 +64,8 @@ while 1
         norm_vector = norm_vec(border_list,[x,y],width);
         dp = abs(dt'*norm_vector)/alpha;
 %         prio = cp*dp;
-%           prio = cp*dp;
-        prio = cp*dp;
+          prio = cp*dp;
+%         prio = [cp,f*dp];
 %         prio = sum(prio);
 
         priority_mat(x,y) = prio;
