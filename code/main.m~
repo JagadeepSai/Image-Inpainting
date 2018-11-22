@@ -2,13 +2,8 @@ clc;
 clear all;
 close all;
 tic;
-<<<<<<< HEAD
 dir = '../data/dataset/c23';
 image = imread( sprintf('%s%s',dir,'_input.png'));
-=======
-% dir = '../data/dataset/c38';
-% image = imread( sprintf('%s%s',dir,'_input.png'));
->>>>>>> 3a18a7bd15333995ee9cef8b3b0ee8cf885765cb
 % image =  imgaussfilt(image,2);
 
 image = imread('../data/images/c1.jpg');
@@ -24,24 +19,15 @@ debug = 0;
 % mask = 255-255*poly2mask(x, y, size(image, 1), size(image, 2));
 
 
-<<<<<<< HEAD
 mask = imread(sprintf('%s%s',dir,'_mask.png'));
-=======
-% mask = imread(sprintf('%s%s',dir,'_/mask.png'));
->>>>>>> 3a18a7bd15333995ee9cef8b3b0ee8cf885765cb
 % mask = 255-mask;
 mask = imread('');
 mask = double(mask);
 % mask = mask > 0; 
 
 
-<<<<<<< HEAD
 psi = 8;
 window = 40;
-=======
-psi = 10;
-window = 50;
->>>>>>> 3a18a7bd15333995ee9cef8b3b0ee8cf885765cb
 alpha=255;
 width=3;
 grad_window = 6;
@@ -81,15 +67,9 @@ while 1
         norm_vector = norm_vec(border_list,[x,y],width);
         dp = abs(dt'*norm_vector)/alpha;
 %         prio = cp*dp;
-<<<<<<< HEAD
 %           prio = cp*dp;
         prio = [cp,f*dp];
         prio = sum(prio);
-=======
-          prio = cp*dp;
-%         prio = [cp,f*dp];
-%         prio = sum(prio);
->>>>>>> 3a18a7bd15333995ee9cef8b3b0ee8cf885765cb
 
         priority_mat(x,y) = prio;
         if prio > max_p
@@ -120,21 +100,11 @@ while 1
         end
     end
  toc;
-<<<<<<< HEAD
 
 if(debug == 1) 
     figure(1);
     imshow(ycbcr2rgb((uint8(image))));
 
-=======
-figure(1);
-imshow(ycbcr2rgb(uint8(image)));
-
-if(debug == 1) 
-    figure(1);
-    imshow(ycbcr2rgb((uint8(image))));
-
->>>>>>> 3a18a7bd15333995ee9cef8b3b0ee8cf885765cb
     % figure(2);
     % [rows,cols] = size(mask);
     I = zeros(rows, cols);

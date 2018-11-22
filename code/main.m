@@ -2,11 +2,7 @@ clc;
 clear all;
 close all;
 tic;
-<<<<<<< HEAD
 dir = '../data/dataset/c46';
-=======
-dir = '../data/dataset/c37';
->>>>>>> 3a18a7bd15333995ee9cef8b3b0ee8cf885765cb
 image = imread( sprintf('%s%s',dir,'_input.png'));
 % image =  imgaussfilt(image,2);
 
@@ -26,21 +22,12 @@ mask = double(mask);
 % mask = mask > 0; 
 
 
-<<<<<<< HEAD
 psi = 10;
 window = 40;
 alpha=255;
 width=3;
 grad_window = 3;
 f = 1.5;
-=======
-psi = 8;
-window = 40;
-alpha=255;
-width=3;
-grad_window = 1;
-f = 2;
->>>>>>> 3a18a7bd15333995ee9cef8b3b0ee8cf885765cb
 
 [rows,cols] = size(mask);
 confidence_mat = double(mask > 0);  
@@ -75,14 +62,7 @@ while 1
         
 %         norm_vector = norm_vec(border_list,[x,y],width);
         dp = abs(dt'*norm_vector)/alpha;
-<<<<<<< HEAD
-%         prio = cp*dp;
-%           prio = cp*dp;
-        prio = [cp,f*dp];
-        prio = sum(prio);
-=======
         prio = cp + f*dp;
->>>>>>> 3a18a7bd15333995ee9cef8b3b0ee8cf885765cb
 
         priority_mat(x,y) = prio;
         if prio > max_p
