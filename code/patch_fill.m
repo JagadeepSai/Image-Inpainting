@@ -76,7 +76,6 @@ function [min_i,min_j] = patch_fill(x,y,image,mask,window,psi,confidence_mat)
            
 %            diff = diff + pdist2(c1,c2,'chisq');
        
-<<<<<<< HEAD
 %            q = image(i-psi:i+psi,j-psi:j+psi, :);
 %            p = p(:);
 %            q = q(:);

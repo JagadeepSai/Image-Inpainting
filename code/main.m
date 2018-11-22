@@ -2,14 +2,14 @@ clc;
 clear all;
 close all;
 tic;
-dir = '../data/dataset/c8';
+dir = '../data/dataset/c37';
 image = imread( sprintf('%s%s',dir,'_input.png'));
 % image =  imgaussfilt(image,2);
-image=rgb2ycbcr(image);
+
+image=rgb2hsv(image);
 image = double(image);
-imshow(image);
 
-
+    
 debug = 0;
 % figure(1), hold off, imagesc(image);
 
@@ -23,12 +23,12 @@ mask = double(mask);
 % mask = mask > 0; 
 
 
-psi = 10;
-window = 50;
+psi = 8;
+window = 40;
 alpha=255;
 width=3;
-grad_window = 6;
-f = 3;
+grad_window = 1;
+f = 2;
 
 [rows,cols] = size(mask);
 confidence_mat = double(mask > 0);  
@@ -64,7 +64,7 @@ while 1
         norm_vector = norm_vec(border_list,[x,y],width);
         dp = abs(dt'*norm_vector)/alpha;
 %         prio = cp*dp;
-          prio = cp*dp;
+          prio = cp + f*dp;
 %         prio = [cp,f*dp];
 %         prio = sum(prio);
 
@@ -98,7 +98,7 @@ while 1
     end
  toc;
 figure(1);
-imshow(ycbcr2rgb(uint8(image)));
+imshow(hsv2rgb(image));
 
 if(debug == 1) 
     figure(1);
@@ -123,6 +123,6 @@ if(debug == 1)
     imagesc(confidence_mat); colormap(gray);
 end
 end
-imwrite(ycbcr2rgb((uint8(image))), sprintf('%s%s',dir,'_output.png'));
+imwrite(hsv2rgb((uint8(image))), sprintf('%s%s',dir,'_output.png'));
 % image= hsv2rgb(image);
 toc;
