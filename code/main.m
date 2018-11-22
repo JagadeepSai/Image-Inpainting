@@ -5,8 +5,8 @@ image = imread('../data/images/p1.jpg');
 image=rgb2hsv(image);
 % figure(1), hold off, imagesc(image);
 
-% [x, y] = ginput;                                                              
-% mask = 255-255*poly2mask(x, y, size(image, 1), size(image, 2)); 
+% [x, y] = ginput;               
+% mask = 255-255*poly2mask(x, y, size(image, 1), size(image, 2));
 
 
 mask = imread('../data/images/p1_mask.jpg');
