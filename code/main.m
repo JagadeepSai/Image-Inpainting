@@ -2,23 +2,22 @@ clc;
 clear all;
 close all;
 tic;
-dir = '../data/images/c6';
+dir = '../data/c23';
 image = imread( sprintf('%s%s',dir,'_input.png'));
 % image =  imgaussfilt(image,2);
+
 image=rgb2ycbcr(image);
 image = double(image);
-imshow(image);
 
-
+    
 debug = 0;
 
 mask = imread(sprintf('%s%s',dir,'_mask.png'));
 mask = double(mask);
 % mask = mask > 0;
 
-
-psi = 4;
-window = 40;
+psi = 10;
+window = 120;
 alpha=255;
 width=3;
 grad_window = 2;
@@ -57,8 +56,7 @@ while 1
         
 %         norm_vector = norm_vec(border_list,[x,y],width);
         dp = abs(dt'*norm_vector)/alpha;
-        prio = cp+f*dp;
-
+        prio = cp + f*dp;
         priority_mat(x,y) = prio;
         if prio > max_p
             max_p_x = x;
