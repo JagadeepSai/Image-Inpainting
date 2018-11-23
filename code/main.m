@@ -2,7 +2,7 @@ clc;
 clear all;
 close all;
 tic;
-dir = '../data/dataset/c8';
+dir = '../data/dataset/c41';
 image = imread( sprintf('%s%s',dir,'_input.png'));
 % image =  imgaussfilt(image,2);
 image=rgb2ycbcr(image);
