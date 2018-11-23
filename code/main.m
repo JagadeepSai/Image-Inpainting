@@ -7,6 +7,8 @@ image = imread( sprintf('%s%s',dir,'_input.png'));
 % image =  imgaussfilt(image,2);
 image=rgb2ycbcr(image);
 image = double(image);
+imshow(image);
+
 
 debug = 0;
 % figure(1), hold off, imagesc(image);
@@ -21,12 +23,12 @@ mask = double(mask);
 % mask = mask > 0; 
 
 
-psi = 4;
-window = 60;
+psi = 10;
+window = 50;
 alpha=255;
 width=3;
 grad_window = 6;
-f = 1.5;
+f = 3;
 
 [rows,cols] = size(mask);
 confidence_mat = double(mask > 0);  
@@ -95,6 +97,8 @@ while 1
         end
     end
  toc;
+figure(1);
+imshow(ycbcr2rgb(uint8(image)));
 
 if(debug == 1) 
     figure(1);
