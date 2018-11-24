@@ -7,9 +7,9 @@ count=0;
 Gx= 0;
 Gy = 0;
  
-for i = max(1+1, x-grad_window):min(sizex-1, x+grad_window)
-    for j = max(1+1, y-grad_window):min(sizey-1, y+grad_window )
-        if (sum(sum(mask(i-1:i+1,j-1:j+1))) == 255*9)
+for i = max(1+2, x-grad_window):min(sizex-2, x+grad_window) %Hard coded Parameters here
+    for j = max(1+2, y-grad_window):min(sizey-2, y+grad_window )
+        if (sum(sum(mask(i-2:i+2,j-2:j+2))) == 255*25)
             if(G(i,j,1)^2+G(i,j,2)^2 > maxG)
                 maxG = G(i,j,1)^2+G(i,j,2)^2;
                 Gx = G(i,j,1);
@@ -17,14 +17,13 @@ for i = max(1+1, x-grad_window):min(sizex-1, x+grad_window)
             end
 %             Gx = Gx +G(i,j,1);
 %             Gy = Gy + G(i,j,2);
-            count= count+1;
+%             count= count+1;
         end
     end
 end
 
 Ix = -Gy;
 Iy = Gx;
-
 % Ix = -Gy/count;
 % Iy = Gx/count;
 V = [Ix Iy]';
