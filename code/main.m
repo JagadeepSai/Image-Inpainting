@@ -51,7 +51,7 @@ while 1
         
         norm_vector = [Nx(x,y), Ny(x,y)]';
         norm_vector = norm_vector/norm(norm_vector);
-        norm_vector(~isfinite(norm_vector)) = 0;
+        norm_vector(~isfinite(norm_vector)) = 0;    
         
 %         norm_vector = norm_vec(border_list,[x,y],width);
         dp = abs(dt'*norm_vector)/alpha;
