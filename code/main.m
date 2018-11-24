@@ -1,35 +1,34 @@
 clc;
 clear all;
 close all;
+warning('off');
 tic;
-dir = '../data/c18';
+dir = '../data/c0';
 image = imread( sprintf('%s%s',dir,'_input.png'));
 % image =  imgaussfilt(image,2);
-
-image=rgb2ycbcr(image);
+% figure(1);
+% imshow(image);
+image=rgb2hsv(image);
 image = double(image);
-
-    
-debug = 0;
-
 mask = imread(sprintf('%s%s',dir,'_mask.png'));
 mask = double(mask);
 
-psi = 5;
-window = 60;
+debug = 0;
+psi = 10;
+psi1 = psi;
+window = 50;
 alpha=255;
 width=3;
-grad_window = 2;
-f = 1;
+grad_window = 3;
+f = 1.5;
 
 [rows,cols] = size(mask);
 confidence_mat = double(mask > 0);  
-
 while 1
     priority_mat = zeros(rows,cols);
 %     [bx,by] = find_border(mask);
 %     border_list = [bx,by];
-        border_list = find_border(mask);
+    border_list = find_border(mask);
     if size(border_list) == [0,0]
        break
     end
@@ -38,11 +37,10 @@ while 1
     max_p_x = 0;
     max_p_y = 0;
     max_p = -1;
-    G = grad1(image,3);
+    G = grad1(image,1); %Hard coded Parameters here
     
-    %normals 
+%     normals 
     [Nx, Ny] = gradient(double(~mask));
-%     toc;
     for i = 1:n
         x = border_list(i,1);
         y = border_list(i,2);
@@ -55,187 +53,8 @@ while 1
         
 %         norm_vector = norm_vec(border_list,[x,y],width);
         dp = abs(dt'*norm_vector)/alpha;
-        prio = cp + f*dp;
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+%         prio = cp + f*dp;
+        prio = cp*dp;
         priority_mat(x,y) = prio;
         if prio > max_p
             max_p_x = x;
@@ -244,7 +63,7 @@ while 1
         end
     end
     confidence_mat(max_p_x,max_p_y) = confidence(psi,max_p_x,max_p_y,confidence_mat);
-    [min_i,min_j] = patch_fill(max_p_x,max_p_y,image,mask,window,psi,confidence_mat);
+    [min_i,min_j] = patch_fill(max_p_x,max_p_y,image,mask,window,psi1,confidence_mat);
     cp = confidence(psi,max_p_x,max_p_y,confidence_mat);
     
     
@@ -263,12 +82,12 @@ while 1
         end
     end
  toc;
-figure(1);
-imshow(ycbcr2rgb(uint8(image)));
+figure(2);
+imshow(hsv2rgb((image)));
 
 if(debug == 1) 
     figure(1);
-    imshow(ycbcr2rgb((uint8(image))));
+    imshow(hsv2rgb(((image))));
     I = zeros(rows, cols);
     for i=1:rows
         for j=1:cols
@@ -286,6 +105,6 @@ if(debug == 1)
     imagesc(confidence_mat); colormap(gray);
 end
 end
-imwrite(ycbcr2rgb((uint8(image))), sprintf('%s%s',dir,'_output.png'));
+imwrite(hsv2rgb(image), sprintf('%s%s',dir,'_output.png'));
 % image= hsv2rgb(image);
 toc;

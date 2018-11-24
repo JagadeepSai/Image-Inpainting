@@ -14,7 +14,7 @@ for p = counter_list'
 end
 
 coeffs = polyfit(xlist, ylist, 1);
-angle = atan(-1/coeffs(1))+pi;
+angle = atan(-1/coeffs(1))+pi/2;
 
 fx = cos(angle);
 fy = sin(angle);
