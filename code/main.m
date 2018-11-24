@@ -4,16 +4,16 @@ close all;
 warning('off');
 tic;
 
-dir = '../data/c18';
+dir = '../data/c45';
 colorspace = 2; % 1 for ycbcr, 2 for hsv %other for hsv
 debug = 0;
-psi = 8;
-psi1 = psi+5;
-window = 50;
+psi = 2;
+psi1 = 15;
+window = 80;
 alpha=255;
 width=3;
 grad_window = 3;
-f = 1.5;
+f = 3;
 
 image = imread( sprintf('%s%s',dir,'_input.png'));
 % image =  imgaussfilt(image,2);
@@ -47,14 +47,14 @@ while 1
     max_p_x = 0;
     max_p_y = 0;
     max_p = -1;
-    G = grad1(image,1); %Hard coded Parameters here
+    G = grad1(image(:,:,1),1); %Hard coded Parameters here
     
 %     normals 
     [Nx, Ny] = gradient(double(~mask));
     for i = 1:n
         x = border_list(i,1);
         y = border_list(i,2);
-        cp = confidence(psi,x,y,confidence_mat); 
+        cp = confidence(psi,x,y,confidence_mat);
         dt = isophote1(x,y,G,grad_window,mask);
         
         norm_vector = [Nx(x,y), Ny(x,y)]';
@@ -72,15 +72,15 @@ while 1
             max_p = prio;
         end
     end
-    confidence_mat(max_p_x,max_p_y) = confidence(psi1,max_p_x,max_p_y,confidence_mat);
+    confidence_mat(max_p_x,max_p_y) = confidence(psi,max_p_x,max_p_y,confidence_mat);
     [min_i,min_j] = patch_fill(max_p_x,max_p_y,image,mask,window,psi1,confidence_mat);
-    cp = confidence(psi1,max_p_x,max_p_y,confidence_mat);
+    cp = confidence(psi,max_p_x,max_p_y,confidence_mat);
     
     
-    top = max_p_x-max(max_p_x-psi1,1);
-    bottom = min(max_p_x+psi1,rows)-max_p_x;
-    left = max_p_y-max(max_p_y-psi1,1);
-    right = min(max_p_y+psi1,cols)-max_p_y;
+    top = max_p_x-max(max_p_x-psi,1);
+    bottom = min(max_p_x+psi,rows)-max_p_x;
+    left = max_p_y-max(max_p_y-psi,1);
+    right = min(max_p_y+psi,cols)-max_p_y;
     
     for i=-top:bottom
         for j=-left:right
