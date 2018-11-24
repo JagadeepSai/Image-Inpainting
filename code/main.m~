@@ -3,7 +3,7 @@ clear all;
 close all;
 warning('off');
 tic;
-dir = '../data/c47';
+dir = '../data/c0';
 image = imread( sprintf('%s%s',dir,'_input.png'));
 % image =  imgaussfilt(image,2);
 % figure(1);
@@ -15,7 +15,7 @@ mask = double(mask);
 
 debug = 0;
 psi = 10;
-psi1 = 10;
+psi1 = 1;
 window = 50;
 alpha=255;
 width=3;
