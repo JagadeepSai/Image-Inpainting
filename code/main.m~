@@ -3,16 +3,44 @@ clear all;
 close all;
 warning('off');
 tic;
+<<<<<<< HEAD
 dir = '../data/c0';
+=======
+
+dir = '../data/c47';
+colorspace = 1; % 1 for ycbcr, 0 for hsv %other for hsv
+debug = 0;
+psi = 15;
+psi1 = psi;
+window = 80;
+alpha=255;
+width=3;
+grad_window = 3;
+f = 1.5;
+
+>>>>>>> 319960e909ef46d425acc42e5952336a3b52506e
 image = imread( sprintf('%s%s',dir,'_input.png'));
 % image =  imgaussfilt(image,2);
 % figure(1);
 % imshow(image);
+<<<<<<< HEAD
 image=rgb2hsv(image);
+=======
+switch colorspace 
+    case 1
+        image = rgb2ycbcr(image);
+    case 2 
+         image=rgb2hsv(image);
+    otherwise 
+         image = image;
+end
+
+>>>>>>> 319960e909ef46d425acc42e5952336a3b52506e
 image = double(image);
 mask = imread(sprintf('%s%s',dir,'_mask.png'));
 mask = double(mask);
 
+<<<<<<< HEAD
 debug = 0;
 psi = 10;
 psi1 = 1;
@@ -21,6 +49,8 @@ alpha=255;
 width=3;
 grad_window = 3;
 f = 1.5;
+=======
+>>>>>>> 319960e909ef46d425acc42e5952336a3b52506e
 
 [rows,cols] = size(mask);
 confidence_mat = double(mask > 0);  
@@ -49,7 +79,11 @@ while 1
         
         norm_vector = [Nx(x,y), Ny(x,y)]';
         norm_vector = norm_vector/norm(norm_vector);
+<<<<<<< HEAD
         norm_vector(~isfinite(norm_vector)) = 0;    
+=======
+        norm_vector(~isfinite(norm_vector)) = 0;
+>>>>>>> 319960e909ef46d425acc42e5952336a3b52506e
         
 %         norm_vector = norm_vec(border_list,[x,y],width);
         dp = abs(dt'*norm_vector)/alpha;
@@ -62,6 +96,7 @@ while 1
             max_p = prio;
         end
     end
+<<<<<<< HEAD
     confidence_mat(max_p_x,max_p_y) = confidence(psi1,max_p_x,max_p_y,confidence_mat);
     [min_i,min_j] = patch_fill(max_p_x,max_p_y,image,mask,window,psi1,confidence_mat);
     cp = confidence(psi1,max_p_x,max_p_y,confidence_mat);
@@ -71,6 +106,17 @@ while 1
     bottom = min(max_p_x+psi1,rows)-max_p_x;
     left = max_p_y-max(max_p_y-psi1,1);
     right = min(max_p_y+psi1,cols)-max_p_y;
+=======
+    confidence_mat(max_p_x,max_p_y) = confidence(psi,max_p_x,max_p_y,confidence_mat);
+    [min_i,min_j] = patch_fill(max_p_x,max_p_y,image,mask,window,psi1,confidence_mat);
+    cp = confidence(psi,max_p_x,max_p_y,confidence_mat);
+    
+    
+    top = max_p_x-max(max_p_x-psi,1);
+    bottom = min(max_p_x+psi,rows)-max_p_x;
+    left = max_p_y-max(max_p_y-psi,1);
+    right = min(max_p_y+psi,cols)-max_p_y;
+>>>>>>> 319960e909ef46d425acc42e5952336a3b52506e
     
     for i=-top:bottom
         for j=-left:right
@@ -82,12 +128,40 @@ while 1
         end
     end
  toc;
+<<<<<<< HEAD
 figure(2);
 imshow(hsv2rgb((image)));
 
 if(debug == 1) 
     figure(1);
     imshow(hsv2rgb(((image))));
+=======
+ 
+ 
+figure(2);
+
+switch colorspace 
+    case 1
+        imshow(ycbcr2rgb(uint8(image)));
+    case 2 
+         imshow(hsv2rgb((image)));
+    otherwise 
+         imshow(uint8(image));
+end
+
+
+if(debug == 1) 
+    figure(1);
+switch colorspace 
+    case 1
+        imshow(ycbcr2rgb(uint8(image)));
+    case 2 
+         imshow(hsv2rgb((image)));
+    otherwise 
+         imshow(uint8(image));
+end
+
+>>>>>>> 319960e909ef46d425acc42e5952336a3b52506e
     I = zeros(rows, cols);
     for i=1:rows
         for j=1:cols
@@ -105,6 +179,20 @@ if(debug == 1)
     imagesc(confidence_mat); colormap(gray);
 end
 end
+<<<<<<< HEAD
 imwrite(hsv2rgb(image), sprintf('%s%s',dir,'_output.png'));
 % image= hsv2rgb(image);
+=======
+
+switch colorspace 
+    case 1
+       imwrite(ycbcr2rgb(uint8(image)), sprintf('%s%s',dir,'_output.png'));
+    case 2 
+       imwrite(hsv2rgb(image), sprintf('%s%s',dir,'_output.png'));
+    otherwise 
+       imwrite(image, sprintf('%s%s',dir,'_output.png'));
+end
+
+
+>>>>>>> 319960e909ef46d425acc42e5952336a3b52506e
 toc;

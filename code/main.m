@@ -3,24 +3,34 @@ clear all;
 close all;
 warning('off');
 tic;
-dir = '../data/c47';
-image = imread( sprintf('%s%s',dir,'_input.png'));
-% image =  imgaussfilt(image,2);
-% figure(1);
-% imshow(image);
-image=rgb2hsv(image);
-image = double(image);
-mask = imread(sprintf('%s%s',dir,'_mask.png'));
-mask = double(mask);
 
+dir = '../data/c47';
+colorspace = 1; % 1 for ycbcr, 2 for hsv %other for hsv
 debug = 0;
-psi = 10;
-psi1 = 10;
-window = 50;
+psi = 15;
+psi1 = psi;
+window = 80;
 alpha=255;
 width=3;
 grad_window = 3;
 f = 1.5;
+
+image = imread( sprintf('%s%s',dir,'_input.png'));
+% image =  imgaussfilt(image,2);
+% figure(1);
+% imshow(image);
+switch colorspace 
+    case 1
+        image = rgb2ycbcr(image);
+    case 2 
+         image=rgb2hsv(image);
+    otherwise 
+         image = image;
+end
+
+image = double(image);
+mask = imread(sprintf('%s%s',dir,'_mask.png'));
+mask = double(mask);
 
 [rows,cols] = size(mask);
 confidence_mat = double(mask > 0);  
@@ -82,12 +92,31 @@ while 1
         end
     end
  toc;
+ 
+ 
 figure(2);
-imshow(hsv2rgb((image)));
+
+switch colorspace 
+    case 1
+        imshow(ycbcr2rgb(uint8(image)));
+    case 2 
+         imshow(hsv2rgb((image)));
+    otherwise 
+         imshow(uint8(image));
+end
+
 
 if(debug == 1) 
     figure(1);
-    imshow(hsv2rgb(((image))));
+switch colorspace 
+    case 1
+        imshow(ycbcr2rgb(uint8(image)));
+    case 2 
+         imshow(hsv2rgb((image)));
+    otherwise 
+         imshow(uint8(image));
+end
+
     I = zeros(rows, cols);
     for i=1:rows
         for j=1:cols
@@ -105,6 +134,15 @@ if(debug == 1)
     imagesc(confidence_mat); colormap(gray);
 end
 end
-imwrite(hsv2rgb(image), sprintf('%s%s',dir,'_output.png'));
-% image= hsv2rgb(image);
+
+switch colorspace 
+    case 1
+       imwrite(ycbcr2rgb(uint8(image)), sprintf('%s%s',dir,'_output.png'));
+    case 2 
+       imwrite(hsv2rgb(image), sprintf('%s%s',dir,'_output.png'));
+    otherwise 
+       imwrite(image, sprintf('%s%s',dir,'_output.png'));
+end
+
+
 toc;
