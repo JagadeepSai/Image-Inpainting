@@ -4,12 +4,12 @@ close all;
 warning('off');
 tic;
 
-dir = '../data/c47';
-colorspace = 1; % 1 for ycbcr, 2 for hsv %other for hsv
+dir = '../data/c18';
+colorspace = 2; % 1 for ycbcr, 2 for hsv %other for hsv
 debug = 0;
-psi = 15;
-psi1 = psi;
-window = 80;
+psi = 8;
+psi1 = psi+5;
+window = 50;
 alpha=255;
 width=3;
 grad_window = 3;
