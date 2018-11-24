@@ -1,7 +1,5 @@
 function [min_i,min_j] = patch_fill(x,y,image,mask,window,psi,confidence_mat)
     [rows cols] = size(mask);
-   x
-   y
     top = x-max(x-psi,1);
     bottom = min(x+psi,rows)-x;
     left = y-max(y-psi,1);
