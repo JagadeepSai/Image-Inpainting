@@ -21,7 +21,7 @@ Results:
     * Aman Jain (160050034)
     * Jagadeep Sai (160050104)
 
-[ori1]: https://raw.githubusercontent.com/JagadeepSai/Image-Inpainting/master/data/c33.jpg
+[ori1]: https://raw.githubusercontent.com/JagadeepSai/Image-Inpainting/master/data/c33.png
 [inp1]: https://raw.githubusercontent.com/JagadeepSai/Image-Inpainting/master/data/c33_input.png
 [out1]: https://raw.githubusercontent.com/JagadeepSai/Image-Inpainting/master/data/c33_output.png
 
