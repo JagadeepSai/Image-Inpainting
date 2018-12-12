@@ -21,32 +21,32 @@ Results:
     * Aman Jain (160050034)
     * Jagadeep Sai (160050104)
 
-[ori1]: ../tree/master/data/c33.jpg
+[ori1]: https://raw.githubusercontent.com/JagadeepSai/Image-Inpainting/master/data/c33.jpg
 [inp1]: https://raw.githubusercontent.com/JagadeepSai/Image-Inpainting/master/data/c33_input.png
 [out1]: https://raw.githubusercontent.com/JagadeepSai/Image-Inpainting/master/data/c33_output.png
 
-[ori2]: ../tree/master/data/c4.jpg
+[ori2]: https://raw.githubusercontent.com/JagadeepSai/Image-Inpainting/master/data/c4.jpg
 [inp2]: https://raw.githubusercontent.com/JagadeepSai/Image-Inpainting/master/data/c4_input.png
 [out2]: https://raw.githubusercontent.com/JagadeepSai/Image-Inpainting/master/data/c4_output.png
 
-[ori3]: ../tree/master/data/c15.jpg
+[ori3]: https://raw.githubusercontent.com/JagadeepSai/Image-Inpainting/master/data/c15.jpg
 [inp3]: https://raw.githubusercontent.com/JagadeepSai/Image-Inpainting/master/data/c15_input.png
 [out3]: https://raw.githubusercontent.com/JagadeepSai/Image-Inpainting/master/data/c15_output.png
 
-[ori4]: ../tree/master/data/c47.jpg
+[ori4]: https://raw.githubusercontent.com/JagadeepSai/Image-Inpainting/master/data/c47.jpg
 [inp4]: https://raw.githubusercontent.com/JagadeepSai/Image-Inpainting/master/data/c47_input.png
 [out4]: https://raw.githubusercontent.com/JagadeepSai/Image-Inpainting/master/data/c47_output.png
 
-[ori5]: ../tree/master/data/c3.jpg
+[ori5]: https://raw.githubusercontent.com/JagadeepSai/Image-Inpainting/master/data/c3.jpg
 [inp5]: https://raw.githubusercontent.com/JagadeepSai/Image-Inpainting/master/data/c3_input.png
 [out5]: https://raw.githubusercontent.com/JagadeepSai/Image-Inpainting/master/data/c3_output.png
 
-[ori6]: ../tree/master/data/c41.png
+[ori6]: https://raw.githubusercontent.com/JagadeepSai/Image-Inpainting/master/data/c41.png
 [inp6]: https://raw.githubusercontent.com/JagadeepSai/Image-Inpainting/master/data/c41_input.png
 [out6]: https://raw.githubusercontent.com/JagadeepSai/Image-Inpainting/master/data/c41_output.png
 
 
-[ori7]: ../tree/master/data/c41.png
+[ori7]: https://raw.githubusercontent.com/JagadeepSai/Image-Inpainting/master/data/c41.png
 [inp7]: https://raw.githubusercontent.com/JagadeepSai/Image-Inpainting/master/data/c41_input.png
 [out7]: https://raw.githubusercontent.com/JagadeepSai/Image-Inpainting/master/data/c41_output.png
 
