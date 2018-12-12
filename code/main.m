@@ -13,7 +13,7 @@ window = 50;
 alpha=255;
 width=3;
 grad_window = 3;
-f = 1.5;
+f = 3;
 
 image = imread( sprintf('%s%s',dir,'_input.png'));
 % image =  imgaussfilt(image,2);
@@ -32,7 +32,6 @@ image = double(image);
 mask = imread(sprintf('%s%s',dir,'_mask.png'));
 mask = double(mask);
 
-
 [rows,cols] = size(mask);
 confidence_mat = double(mask > 0);  
 while 1
@@ -48,19 +47,19 @@ while 1
     max_p_x = 0;
     max_p_y = 0;
     max_p = -1;
-    G = grad1(image,1); %Hard coded Parameters here
+    G = grad1(image(:,:,1),1); %Hard coded Parameters here
     
 %     normals 
     [Nx, Ny] = gradient(double(~mask));
     for i = 1:n
         x = border_list(i,1);
         y = border_list(i,2);
-        cp = confidence(psi,x,y,confidence_mat); 
+        cp = confidence(psi,x,y,confidence_mat);
         dt = isophote1(x,y,G,grad_window,mask);
         
         norm_vector = [Nx(x,y), Ny(x,y)]';
         norm_vector = norm_vector/norm(norm_vector);
-        norm_vector(~isfinite(norm_vector)) = 0;
+        norm_vector(~isfinite(norm_vector)) = 0;    
         
 %         norm_vector = norm_vec(border_list,[x,y],width);
         dp = abs(dt'*norm_vector)/alpha;

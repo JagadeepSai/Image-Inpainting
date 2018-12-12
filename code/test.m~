@@ -8,7 +8,7 @@ image = imread( sprintf('%s%s',dir,'_input.png'));
 figure(1);
 imshow(image);
 
-image=rgb2hsv(image);
+image=rgb2ycbcr(image);
 image = double(image);
 mask = imread(sprintf('%s%s',dir,'_mask.png'));
 mask = double(mask);
@@ -20,7 +20,7 @@ alpha=255;
 width=3;
 grad_window = 3;
 f = 1.5;
-G = grad1(image(:,:,1),1);
+G = grad1(image,1);
 % impixelinfo;
 border_list = find_border(mask);
 for i=1:100
